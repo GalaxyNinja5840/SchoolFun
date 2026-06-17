@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Hub</title>
+    
+    <style>
+        /* Modern Native CSS Styling Variables */
+        @import url('https://googleapis.com');
+        
+        :root {
+            --bg-main: #090d16;
+            --bg-nav: #0f172a;
+            --bg-card: #131c2e;
+            --bg-card-hover: #1e293b;
+            --border-color: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-green: #34d399;
+            --accent-purple: #c084fc;
+            --accent-pink: #f472b6;
+            --accent-teal: #2dd4bf;
+            --accent-blue: #60a5fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* Top Navigation Header bar */
+        nav {
+            background-color: var(--bg-nav);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-green);
+            text-decoration: none;
+        }
+
+        .proxy-bar {
+            background-color: #020617;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+            font-size: 12px;
+            color: var(--text-muted);
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .btn-cloak {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cloak:hover {
+            background-color: #334155;
+        }
+
+        .search-container input {
+            background-color: #020617;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            width: 200px;
+        }
+
+        /* Layout Architecture Configuration grid */
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            width: 100%;
+        }
+
+        .game-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--accent-blue); /* Default letter color */
+        }
+
+        .section-header::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        /* Dynamic Color Coding for Sections */
+        .sec-A, .sec-F, .sec-K, .sec-P, .sec-U, .sec-Z { color: var(--accent-green); }
+        .sec-B, .sec-G, .sec-L, .sec-Q, .sec-V { color: var(--accent-purple); }
+        .sec-C, .sec-H, .sec-M, .sec-R, .sec-W { color: var(--accent-pink); }
+        .sec-D, .sec-I, .sec-N, .sec-S, .sec-X { color: var(--accent-teal); }
+        .sec-E, .sec-J, .sec-O, .sec-T, .sec-Y { color: var(--accent-blue); }
+
+        /* Modern Box Grid System */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        /* Redesigned Visual Game Boxes */
+        .game-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+            position: relative;
+        }
+
+        .game-card:hover {
+            border-color: #475569;
+            background-color: var(--bg-card-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Thumbnail Image Area Inside the Box */
+        .card-banner {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            background-color: #020617;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover .card-banner img {
+            transform: scale(1.05);
+        }
+
+        /* Letter Thumbnail Fallback */
+        .card-icon-fallback {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        /* Text Details Wrapper Inside the Box */
+        .card-details {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex-grow: 1;
+        }
+
+        .card-details h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #f1f5f9;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-details p {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Iframe game monitor overlay panel */
+        #gameViewport {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #060911;
+            display: none;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .viewport-header {
+            background-color: var(--bg-nav);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .viewport-title {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #34d399;
+        }
+
+        .btn-close {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            color: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .iframe-container {
+            flex-grow: 1;
+            position: relative;
+            background-color: #000;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0; left: 0;
+        }
+
+        /* Stealth Classroom Fake Drive Shell Frame styling */
+        #fakeDriveShell {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: #fff;
+            color: #3c4043;
+            z-index: 99999;
+            font-family: Roboto, Arial, sans-serif;
+            flex-direction: column;
+        }
+        
+        .drive-header {
+            padding: 8px 16px;
+            border-bottom: 1px solid #dadce0;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+        }
+        
+        .drive-body {
+            padding: 40px;
+            font-size: 14px;
+        }
+        
+        /* Message if section grid is completely empty */
+        .empty-text {
+            grid-column: 1 / -1;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Central Wrapper Interface Content -->
+    <div id="centralApplicationUI">
+        <nav>
+            <div class="nav-left">
+                <a href="#" class="logo">Classroom</a>
+                <div class="proxy-bar">https://classroom.lat</div>
+            </div>
+            <div class="nav-right">
+                <button onclick="cloakTabLocal()" class="btn-cloak">Cloak Tab</button>
+                <div class="search-container">
+                    <input type="text" id="gameSearch" onkeyup="filterGames()" placeholder="Search library...">
+                </div>
+            </div>
+        </nav>
+
+        <div class="wrapper">
+            <main id="libraryContainer">
+                
+                <!-- A -->
+                <section class="game-section">
+                    <div class="section-header sec-A">A</div>
+                    <div class="grid">
