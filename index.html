@@ -5,55 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DuckDuckGo — Privacy, simplified.</title>
     <link rel="icon" type="image/x-icon" href="https://duckduckgo.com">
-    <style>
-        /* BASE & SYSTEM STYLES */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #0f0f12; color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; min-height: 100vh; overflow-x: hidden; }
-        
-        /* HEADER BAR NAVIGATION */
-        header { background-color: #16161a; border-bottom: 1px solid #27272a; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; position: sticky; top: 0; z-index: 50; }
-        .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-box { width: 36px; height: 36px; background: linear-gradient(135deg, #a855f7, #6366f1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: white; }
-        .logo-text { font-size: 1.2rem; font-weight: 700; color: #ffffff; }
-        .search-container { flex: 1; max-width: 500px; margin: 0 16px; }
-        #searchBar { width: 100%; background-color: #202024; color: #f3f4f6; padding: 10px 16px; border-radius: 10px; border: 1px solid #3f3f46; font-size: 0.85rem; outline: none; }
-        #searchBar:focus { border-color: #a855f7; }
-        .controls { display: flex; align-items: center; gap: 12px; }
-        .cloak-btn { background-color: #4f46e5; color: white; border: none; padding: 9px 18px; border-radius: 10px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
-        .panic-badge { font-size: 0.75rem; color: #a1a1aa; background-color: #1e1e22; padding: 8px 14px; border-radius: 10px; border: 1px solid #27272a; }
-        kbd { background-color: #2d2d34; padding: 2px 6px; border-radius: 4px; border: 1px solid #52525b; color: #ffffff; font-weight: bold; }
-        
-        /* MAIN CONTENT AREA */
-        main { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
-        .heading-area { margin-bottom: 24px; }
-        .heading-area h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; color: #ffffff; }
-        .heading-area p { font-size: 0.9rem; color: #a1a1aa; }
-        
-        /* THE THREE GAME CATEGORY BUTTONS */
-        .category-container { display: flex; gap: 10px; margin-bottom: 32px; overflow-x: auto; padding-bottom: 8px; }
-        .cat-btn { background-color: #16161a; color: #a1a1aa; border: 1px solid #27272a; padding: 8px 18px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-        .cat-btn:hover { border-color: #a855f7; color: #ffffff; }
-        .cat-btn.active { background-color: #a855f7; color: #ffffff; border-color: #a855f7; }
-        
-        /* APP CARD GRID */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .app-card { background-color: #16161a; border: 1px solid #27272a; padding: 20px; border-radius: 16px; cursor: pointer; display: flex; flex-direction: column; height: 100%; transition: transform 0.2s; }
-        .app-card:hover { border-color: #a855f7; background-color: #1c1c21; transform: translateY(-4px); }
-        .card-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-weight: 700; font-size: 1.1rem; }
-        .card-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #ffffff; }
-        .card-desc { font-size: 0.8rem; color: #71717a; line-height: 1.4; flex-grow: 1; }
-        
-        /* CARD THEMES */
-        .icon-blue { background-color: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-        .icon-green { background-color: rgba(16, 185, 129, 0.1); color: #10b981; }
-        .icon-amber { background-color: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-        .icon-rose { background-color: rgba(244, 63, 94, 0.1); color: #f43f5e; }
-        
-        /* VIEWPORT RUNNER FOR IFRAMES */
-        #runner-container { display: none; position: fixed; inset: 0; background-color: #000000; z-index: 100; }
-        .close-btn { position: fixed; top: 16px; left: 16px; background-color: #ef4444; color: white; border: none; font-weight: 700; padding: 10px 18px; border-radius: 10px; font-size: 0.75rem; z-index: 110; cursor: pointer; }
-        iframe { width: 100vw; height: 100vh; border: none; display: block; }
-    </style>
+    <!-- Link to your external stylesheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
@@ -62,10 +15,10 @@
             <span class="logo-text">Classroom Portal</span>
         </div>
         <div class="search-container">
-            <input type="text" id="searchBar" onkeyup="filterApps()" placeholder="Search frameworks or modules...">
+            <input type="text" id="searchBar" onplaceholder="Search frameworks or modules..." placeholder="Search frameworks or modules...">
         </div>
         <div class="controls">
-            <button onclick="cloakTab()" class="cloak-btn">✨ Auto Cloak Tab</button>
+            <button id="cloakBtn" class="cloak-btn">✨ Auto Cloak Tab</button>
             <div class="panic-badge">Panic Key: <kbd>`</kbd></div>
         </div>
     </header>
@@ -76,39 +29,30 @@
             <p>Select a sandbox container module below to safely launch internal frames.</p>
         </div>
 
-        <!-- CATEGORY NAVIGATION TAB BAR (THE THREE GAME CATEGORIES) -->
         <div class="category-container">
-            <button class="cat-btn active" onclick="filterCategory('all')">All Games</button>
-            <button class="cat-btn" onclick="filterCategory('sports')">Sports</button>
-            <button class="cat-btn" onclick="filterCategory('action')">Action</button>
-            <button class="cat-btn" onclick="filterCategory('retro')">Retro</button>
+            <button class="cat-btn active" data-cat="all">All Games</button>
+            <button class="cat-btn" data-cat="sports">Sports</button>
+            <button class="cat-btn" data-cat="action">Action</button>
+            <button class="cat-btn" data-cat="retro">Retro</button>
         </div>
 
-        <!-- MAIN CARD HOUSINGS -->
         <div id="appsGrid" class="grid">
-            <!-- Sports Game -->
-            <div class="app-card" data-category="sports" data-name="retro bowl football game gridiron unblocked" onclick="launchApp('https://konggames.com')">
+            <div class="app-card" data-category="sports" data-name="retro bowl football game gridiron unblocked" data-url="https://konggames.com">
                 <div class="card-icon icon-amber">RB</div>
                 <div class="card-title">Retro Bowl</div>
                 <div class="card-desc">Classic retro pixelated American football management simulator.</div>
             </div>
-
-            <!-- Action Game -->
-            <div class="app-card" data-category="action" data-name="slope physics simulator game unblocked" onclick="launchApp('https://googleusercontent.com')">
+            <div class="app-card" data-category="action" data-name="slope physics simulator game unblocked" data-url="https://googleusercontent.com">
                 <div class="card-icon icon-green">SL</div>
                 <div class="card-title">Slope Run</div>
                 <div class="card-desc">Embedded high-speed physics running canvas engine.</div>
             </div>
-
-            <!-- Action Game -->
-            <div class="app-card" data-category="action" data-name="1v1 lol multiplayer building shooter unblocked" onclick="launchApp('https://googleusercontent.com')">
+            <div class="app-card" data-category="action" data-name="1v1 lol multiplayer building shooter unblocked" data-url="https://googleusercontent.com">
                 <div class="card-icon icon-rose">1v1</div>
                 <div class="card-title">1v1.LOL Arena</div>
                 <div class="card-desc">3D multiplayer competitive mechanical practice container.</div>
             </div>
-
-            <!-- Retro Game Placeholder -->
-            <div class="app-card" data-category="retro" data-name="google proxy search engine unblocked browser" onclick="launchApp('https://google.com')">
+            <div class="app-card" data-category="retro" data-name="google proxy search engine unblocked browser" data-url="https://google.com">
                 <div class="card-icon icon-blue">G</div>
                 <div class="card-title">Google Sandbox</div>
                 <div class="card-desc">An iframe friendly search engine environment layout config.</div>
@@ -117,88 +61,11 @@
     </main>
 
     <div id="runner-container">
-        <button onclick="closeApp()" class="close-btn">✕ Close Viewport</button>
+        <button id="closeBtn" class="close-btn">✕ Close Viewport</button>
         <iframe id="app-runner" src="" allowfullscreen></iframe>
     </div>
 
-    <script>
-        let currentSelectedCategory = 'all';
-
-        function launchApp(url) {
-            document.getElementById('hub-container').style.display = 'none';
-            document.getElementById('runner-container').style.display = 'block';
-            document.getElementById('app-runner').src = url;
-        }
-        function closeApp() {
-            document.getElementById('hub-container').style.display = 'block';
-            document.getElementById('runner-container').style.display = 'none';
-            document.getElementById('app-runner').src = "";
-        }
-
-        function filterApps() {
-            let input = document.getElementById('searchBar').value.toLowerCase();
-            let cards = document.getElementsByClassName('app-card');
-            
-            for (let i = 0; i < cards.length; i++) {
-                let nameAttr = cards[i].getAttribute('data-name');
-                let catAttr = cards[i].getAttribute('data-category');
-                
-                let matchesSearch = nameAttr.includes(input);
-                let matchesCategory = (currentSelectedCategory === 'all' || catAttr === currentSelectedCategory);
-                
-                if (matchesSearch && matchesCategory) {
-                    cards[i].style.display = "flex";
-                } else {
-                    cards[i].style.display = "none";
-                }
-            }
-        }
-
-        function filterCategory(category) {
-            currentSelectedCategory = category;
-            let buttons = document.getElementsByClassName('cat-btn');
-            for (let b of buttons) {
-                b.classList.remove('active');
-            }
-            event.target.classList.add('active');
-            filterApps();
-        }
-
- // REDESIGNED CLOAK ENGINE FOR DUCKDUCKGO
-function cloakTab() {
-    let currentUrl = window.location.href;
-    let targetWin = window.open('about:blank', '_blank');
-    if (targetWin) {
-        let doc = targetWin.document;
-        doc.body.style.margin = '0'; 
-        doc.body.style.height = '100vh'; 
-        doc.body.style.overflow = 'hidden';
-        
-        // Set the title and absolute path favicon to match DuckDuckGo
-        doc.title = "DuckDuckGo — Privacy, simplified.";
-        let link = doc.createElement('link');
-        link.rel = 'icon'; 
-        link.type = 'image/x-icon'; 
-        link.href = 'https://duckduckgo.com'; // Fixed: Explicit protocol string
-        doc.head.appendChild(link);
-        
-        let proxyFrame = doc.createElement('iframe');
-        proxyFrame.style.border = 'none'; 
-        proxyFrame.style.width = '100%'; 
-        proxyFrame.style.height = '100%'; 
-        proxyFrame.src = currentUrl;
-        doc.body.appendChild(proxyFrame);
-        
-        // Evacuate the original visible tab instantly to DuckDuckGo
-        window.location.replace("https://duckduckgo.com");
-    } else {
-        alert("Please enable popups!");
-    }
-} // Fixed: Extraneous syntax bracket removed here
-
-// PANIC BUTTON REDIRECT TO DUCKDUCKGO
-window.addEventListener('keydown', function(event) {
-    if (event.key === '`' || event.keyCode === 192) {
-        window.location.replace("https://duckduckgo.com");
-    }
-});
+    <!-- Link to your external JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
