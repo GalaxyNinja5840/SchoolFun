@@ -3,132 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tab title that shows before cloaking is activated -->
     <title>Classes & Assignments</title>
     <link rel="icon" type="image/x-icon" href="https://gstatic.com">
     
+    <!-- Modern Tailwind CSS framework loaded instantly from CDN -->
+    <script src="https://tailwindcss.com"></script>
     <style>
-        /* NATIVE CSS - CANNOT BE NETWORK BLOCKED */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #121212; color: #f3f4f6; font-family: sans-serif; min-height: 100vh; }
-        
-        header { background-color: #1a1a1a; border-bottom: 1px solid #2d3748; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; position: sticky; top: 0; z-index: 50; }
-        .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-box { width: 32px; height: 32px; background-color: #9333ea; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
-        .logo-text { font-size: 1.25rem; font-weight: bold; background: linear-gradient(to right, #c084fc, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .search-container { flex: 1; max-width: 576px; margin: 0 16px; }
-        #searchBar { width: 100%; bg-color: #242424; background: #242424; color: #e5e7eb; padding: 10px 16px; rounded-xl: 12px; border-radius: 12px; border: 1px solid #374151; font-size: 0.875rem; outline: none; }
-        #searchBar:focus { border-color: #9333ea; }
-        
-        .controls { display: flex; align-items: center; gap: 8px; }
-        .cloak-btn { background-color: #4f46e5; color: white; border: none; padding: 8px 16px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .cloak-btn:hover { background-color: #6366f1; }
-        .panic-badge { font-size: 0.75rem; color: #9ca3af; background-color: #242424; padding: 8px 12px; border-radius: 12px; border: 1px solid #374151; }
-        kbd { background-color: #1f2937; padding: 2px 6px; border-radius: 4px; border: 1px solid #4b5563; font-family: monospace; color: white; }
-        
-        main { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
-        .heading-area { margin-bottom: 32px; }
-        .heading-area h2 { font-size: 1.5rem; font-weight: bold; margin-bottom: 8px; }
-        .heading-area p { font-size: 0.875rem; color: #9ca3af; }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
-        .app-card { background-color: #1a1a1a; border: 1px solid #2d3748; padding: 16px; border-radius: 16px; cursor: pointer; transition: all 0.2s; }
-        .app-card:hover { border-color: #9333ea; background-color: #222222; transform: translateY(-2px); }
-        .card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; font-weight: bold; font-size: 1.25rem; }
-        .card-title { font-size: 0.875rem; font-weight: 600; margin-bottom: 4px; }
-        .card-desc { font-size: 0.75rem; color: #6b7280; line-height: 1.2; }
-        
-        /* Icon Variants */
-        .icon-blue { background-color: rgba(37, 99, 235, 0.1); color: #3b82f6; }
-        .icon-green { background-color: rgba(5, 150, 105, 0.1); color: #10b981; }
-        .icon-amber { background-color: rgba(217, 119, 6, 0.1); color: #f59e0b; }
-        .icon-rose { background-color: rgba(225, 29, 72, 0.1); color: #f43f5e; }
-        
-        #runner-container { display: none; position: fixed; inset: 0; background-color: black; z-index: 40; padding-top: 73px; }
-        .close-btn { position: fixed; top: 85px; left: 16px; background-color: #dc2626; color: white; border: none; font-weight: bold; padding: 8px 16px; border-radius: 12px; font-size: 0.75rem; z-index: 50; cursor: pointer; opacity: 0.6; transition: 0.2s; }
-        .close-btn:hover { opacity: 1; }
         iframe { width: 100%; height: 100vh; border: none; display: none; }
-        .active-frame { display: block; }
+        .active-frame { display: block !important; }
     </style>
 </head>
-<body>
+<body class="bg-[#121212] text-gray-100 font-sans min-h-screen selection:bg-purple-600 selection:text-white">
 
-    <header>
-        <div class="logo-area">
-            <div class="logo-box">C</div>
-            <span class="logo-text">Classroom Portal</span>
+    <!-- TOP NAVIGATION BAR -->
+    <header id="main-header" class="bg-[#1a1a1a] border-b border-gray-800 sticky top-0 z-50 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-purple-500/20">C</div>
+            <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">Classroom Portal</h1>
         </div>
         
-        <div class="search-container">
-            <input type="text" id="searchBar" onkeyup="filterApps()" placeholder="Search frameworks or apps...">
+        <!-- Live App & URL Filter Bar -->
+        <div class="flex-1 max-w-xl mx-4">
+            <input type="text" id="searchBar" onkeyup="filterApps()" placeholder="Search apps, games, or paste an embed link..." 
+                   class="w-full bg-[#242424] text-gray-200 placeholder-gray-500 px-4 py-2 rounded-xl border border-gray-700 focus:outline-none focus:border-purple-500 transition-all text-sm">
         </div>
 
-        <div class="controls">
-            <button onclick="cloakTab()" class="cloak-btn">✨ Auto Cloak Tab</button>
-            <div class="panic-badge">Panic Key: <kbd>`</kbd></div>
+        <!-- Stealth Utility Controls -->
+        <div class="flex items-center gap-2">
+            <button onclick="cloakTab()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all shadow-md shadow-indigo-600/10">
+                ✨ Auto Cloak Tab
+            </button>
+            <div class="text-xs text-gray-400 bg-[#242424] px-3 py-2 rounded-xl border border-gray-700">
+                Panic Key: <kbd class="bg-gray-800 px-1.5 py-0.5 rounded border border-gray-600 font-mono text-white text-[10px]">`</kbd> (Tilde)
+            </div>
         </div>
     </header>
 
-    <main id="hub-container">
-        <div class="heading-area">
-            <h2>Available Class Frameworks</h2>
-            <p>Select a sandbox container module below to safely launch internal frames.</p>
+    <!-- HUB MAIN CONTAINER -->
+    <main id="hub-container" class="max-w-7xl mx-auto px-6 py-8">
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-2">Available Class Frameworks</h2>
+            <p class="text-sm text-gray-400">Select a sandbox container module below to safely route traffic or launch internal frames.</p>
         </div>
 
-        <div id="appsGrid" class="grid">
+        <!-- APP AND GAME GRID DIRECTORY -->
+        <div id="appsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             
-            <div class="app-card" data-name="google proxy search engine" onclick="launchApp('https://google.com')">
-                <div class="card-icon icon-blue">G</div>
-                <div class="card-title">Google Sandbox</div>
-                <div class="card-desc">Iframe friendly search engine environment.</div>
+            <!-- App Card 1 -->
+            <div class="app-card bg-[#1a1a1a] hover:bg-[#222222] border border-gray-800 hover:border-purple-500/50 p-4 rounded-2xl cursor-pointer transition-all group" 
+                 data-name="google proxy search engine unblocked" onclick="launchApp('https://google.com')">
+                <div class="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center mb-3 text-blue-400 group-hover:scale-105 transition-transform font-bold">G</div>
+                <h3 class="font-semibold text-sm group-hover:text-purple-400 transition-colors">Google Sandbox</h3>
+                <p class="text-xs text-gray-500 mt-1">Iframe friendly main search engine frame.</p>
             </div>
 
-            <div class="app-card" data-name="slope physics simulator game" onclick="launchApp('https://googleusercontent.com')">
-                <div class="card-icon icon-green">SL</div>
-                <div class="card-title">Slope Run</div>
-                <div class="card-desc">Embedded high speed physics canvas interface.</div>
+            <!-- App Card 2 -->
+            <div class="app-card bg-[#1a1a1a] hover:bg-[#222222] border border-gray-800 hover:border-purple-500/50 p-4 rounded-2xl cursor-pointer transition-all group" 
+                 data-name="slope physics simulator game" onclick="launchApp('https://googleusercontent.com')">
+                <div class="w-12 h-12 bg-emerald-600/10 rounded-xl flex items-center justify-center mb-3 text-emerald-400 group-hover:scale-105 transition-transform font-bold">SL</div>
+                <h3 class="font-semibold text-sm group-hover:text-purple-400 transition-colors">Slope Run</h3>
+                <p class="text-xs text-gray-500 mt-1">Embedded high speed canvas physics webapp.</p>
             </div>
 
-            <div class="app-card" data-name="retro bowl football game" onclick="launchApp('https://konggames.com')">
-                <div class="card-icon icon-amber">RB</div>
-                <div class="card-title">Retro Bowl</div>
-                <div class="card-desc">Classic pixel sports management simulator.</div>
+            <!-- App Card 3 -->
+            <div class="app-card bg-[#1a1a1a] hover:bg-[#222222] border border-gray-800 hover:border-purple-500/50 p-4 rounded-2xl cursor-pointer transition-all group" 
+                 data-name="retro bowl football game gridiron" onclick="launchApp('https://konggames.com')">
+                <div class="w-12 h-12 bg-amber-600/10 rounded-xl flex items-center justify-center mb-3 text-amber-400 group-hover:scale-105 transition-transform font-bold">RB</div>
+                <h3 class="font-semibold text-sm group-hover:text-purple-400 transition-colors">Retro Bowl</h3>
+                <p class="text-xs text-gray-500 mt-1">Classic retro sports simulator instance.</p>
             </div>
 
-            <div class="app-card" data-name="1v1 lol multiplayer building shooter" onclick="launchApp('https://googleusercontent.com')">
-                <div class="card-icon icon-rose">1v1</div>
-                <div class="card-title">1v1.LOL Arena</div>
-                <div class="card-desc">3D competitive structural practice tool.</div>
+            <!-- App Card 4 -->
+            <div class="app-card bg-[#1a1a1a] hover:bg-[#222222] border border-gray-800 hover:border-purple-500/50 p-4 rounded-2xl cursor-pointer transition-all group" 
+                 data-name="1v1 lol multiplayer building shooter" onclick="launchApp('https://googleusercontent.com')">
+                <div class="w-12 h-12 bg-rose-600/10 rounded-xl flex items-center justify-center mb-3 text-rose-400 group-hover:scale-105 transition-transform font-bold">1v1</div>
+                <h3 class="font-semibold text-sm group-hover:text-purple-400 transition-colors">1v1.LOL Arena</h3>
+                <p class="text-xs text-gray-500 mt-1">3D precision competitive practice framework.</p>
             </div>
 
         </div>
     </main>
 
-    <div id="runner-container">
-        <button onclick="closeApp()" class="close-btn">✕ Close Viewport</button>
+    <!-- FULLSCREEN RUNTIME RUNNER MODULE -->
+    <div id="runner-container" class="hidden fixed inset-0 bg-black z-40 pt-[73px]">
+        <!-- Contextual floating control menu for exit strategies -->
+        <button onclick="closeApp()" class="fixed top-[85px] left-4 bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2 rounded-xl text-xs z-50 opacity-40 hover:opacity-100 transition-all shadow-lg">
+            ✕ Close Viewport
+        </button>
         <iframe id="app-runner" src="" allowfullscreen></iframe>
     </div>
 
+    <!-- UTILITY ENGINE LOGIC (JAVASCRIPT) -->
     <script>
+        // 1. Interactive Sandbox Launch Protocol
         function launchApp(url) {
-            document.getElementById('hub-container').style.display = 'none';
-            document.getElementById('runner-container').style.display = 'block';
+            document.getElementById('hub-container').classList.add('hidden');
+            document.getElementById('runner-container').classList.remove('hidden');
+            
             let frame = document.getElementById('app-runner');
             frame.classList.add('active-frame');
             frame.src = url;
         }
 
+        // 2. Tear Down active viewport and revert back safely
         function closeApp() {
-            document.getElementById('hub-container').style.display = 'block';
-            document.getElementById('runner-container').style.display = 'none';
+            document.getElementById('hub-container').classList.remove('hidden');
+            document.getElementById('runner-container').classList.add('hidden');
+            
             let frame = document.getElementById('app-runner');
             frame.classList.remove('active-frame');
             frame.src = "";
         }
 
+        // 3. Dynamic Filtering Engine for Search Bar
         function filterApps() {
             let input = document.getElementById('searchBar').value.toLowerCase();
             let cards = document.getElementsByClassName('app-card');
+            
             for (let i = 0; i < cards.length; i++) {
                 let nameAttr = cards[i].getAttribute('data-name');
                 if (nameAttr.includes(input)) {
@@ -139,16 +131,19 @@
             }
         }
 
+        // 4. Advanced Tab Cloaking Architecture (Disguise inside an about:blank object wrapper)
         function cloakTab() {
             let currentUrl = window.location.href;
             let targetWin = window.open('about:blank', '_blank');
+            
             if (targetWin) {
                 let doc = targetWin.document;
                 doc.body.style.margin = '0';
                 doc.body.style.height = '100vh';
                 doc.body.style.overflow = 'hidden';
-                doc.title = "Google Classroom";
+                doc.title = "Google Classroom"; // Spoofed browser tab text
                 
+                // Set fake educational favicon
                 let link = doc.createElement('link');
                 link.rel = 'icon';
                 link.type = 'image/x-icon';
@@ -160,16 +155,20 @@
                 proxyFrame.style.width = '100%';
                 proxyFrame.style.height = '100%';
                 proxyFrame.src = currentUrl;
+                
                 doc.body.appendChild(proxyFrame);
                 
+                // Immediately bail out the original host page to a real education site
                 window.location.replace("https://google.com");
             } else {
-                alert("Please allow popups for this site to cloak tabs!");
+                alert("Popup Blocker detected! Enable popups to use the Auto Cloaker.");
             }
         }
 
+        // 5. Hardware Panic Hotkey Trigger (` / Tilde Key)
         window.addEventListener('keydown', function(event) {
             if (event.key === '`' || event.keyCode === 192) {
+                // Instantly evacuate to an official platform asset
                 window.location.replace("https://google.com");
             }
         });
