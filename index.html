@@ -1,149 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Tab title that shows before cloaking is activated -->
-    <title>Classes & Assignments</title>
-    <link rel="icon" type="image/x-icon" href="https://gstatic.com">
-    
-    <!-- Modern Tailwind CSS framework loaded instantly from CDN -->
-    <script src="https://tailwindcss.com"></script>
-    <style>
-        iframe { width: 100%; height: 100vh; border: none; display: none; }
-        .active-frame { display: block !important; }
-    </style>
-</head>
-<body class="bg-[#121212] text-gray-100 font-sans min-h-screen selection:bg-purple-600 selection:text-white">
-
-    <!-- TOP NAVIGATION BAR -->
-    <header id="main-header" class="bg-[#1a1a1a] border-b border-gray-800 sticky top-0 z-50 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-purple-500/20">C</div>
-            <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">Classroom Portal</h1>
-        </div>
-        
-        <!-- Live App & URL Filter Bar -->
-        <div class="flex-1 max-w-xl mx-4">
-            <input type="text" id="searchBar" onkeyup="filterApps()" placeholder="Search apps, games, or paste an embed link..." 
-                   class="w-full bg-[#242424] text-gray-200 placeholder-gray-500 px-4 py-2 rounded-xl border border-gray-700 focus:outline-none focus:border-purple-500 transition-all text-sm">
-        </div>
-
-        <!-- Stealth Utility Controls -->
-        <div class="flex items-center gap-2">
-            <button onclick="cloakTab()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all shadow-md shadow-indigo-600/10">
-                ✨ Auto Cloak Tab
-            </button>
-            <div class="text-xs text-gray-400 bg-[#242424] px-3 py-2 rounded-xl border border-gray-700">
-                Panic Key: <kbd class="bg-gray-800 px-1.5 py-0.5 rounded border border-gray-600 font-mono text-white text-[10px]">`</kbd> (Tilde)
-            </div>
-        </div>
-    </header>
-
-    <!-- HUB MAIN CONTAINER -->
-    <main id="hub-container" class="max-w-7xl mx-auto px-6 py-8">
-        <div class="mb-8">
-            <h2 class="text-2xl font-bold mb-2">Available Class Frameworks</h2>
-            <p class="text-sm text-gray-400">Select a sandbox container module below to safely route traffic or launch internal frames.</p>
-        </div>
-
-        <!-- APP AND GAME GRID DIRECTORY -->
-        <div id="appsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            
-            <!-- App Card 1 -->
-            <div class="app-card bg-[#1a1a1a] hover:bg-[#222222] border border-gray-800 hover:border-purple-500/50 p-4 rounded-2xl cursor-pointer transition-all group" 
-                 data-name="google proxy search engine unblocked" onclick="launchApp('https://google.com')">
-                <div class="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center mb-3 text-blue-400 group-hover:scale-105 transition-transform font-bold">G</div>
-                <h3 class="font-semibold text-sm group-hover:text-purple-400 transition-colors">Google Sandbox</h3>
-                <p class="text-xs text-gray-500 mt-1">Iframe friendly main search engine frame.</p>
-            </div>
-
-            <!-- App Card 2 -->
-            <div class="app-card bg-[#1a1a1a] hover:bg-[#222222] border border-gray-800 hover:border-purple-500/50 p-4 rounded-2xl cursor-pointer transition-all group" 
-                 data-name="slope physics simulator game" onclick="launchApp('https://googleusercontent.com')">
-                <div class="w-12 h-12 bg-emerald-600/10 rounded-xl flex items-center justify-center mb-3 text-emerald-400 group-hover:scale-105 transition-transform font-bold">SL</div>
-                <h3 class="font-semibold text-sm group-hover:text-purple-400 transition-colors">Slope Run</h3>
-                <p class="text-xs text-gray-500 mt-1">Embedded high speed canvas physics webapp.</p>
-            </div>
-
-            <!-- App Card 3 -->
-            <div class="app-card bg-[#1a1a1a] hover:bg-[#222222] border border-gray-800 hover:border-purple-500/50 p-4 rounded-2xl cursor-pointer transition-all group" 
-                 data-name="retro bowl football game gridiron" onclick="launchApp('https://konggames.com')">
-                <div class="w-12 h-12 bg-amber-600/10 rounded-xl flex items-center justify-center mb-3 text-amber-400 group-hover:scale-105 transition-transform font-bold">RB</div>
-                <h3 class="font-semibold text-sm group-hover:text-purple-400 transition-colors">Retro Bowl</h3>
-                <p class="text-xs text-gray-500 mt-1">Classic retro sports simulator instance.</p>
-            </div>
-
-            <!-- App Card 4 -->
-            <div class="app-card bg-[#1a1a1a] hover:bg-[#222222] border border-gray-800 hover:border-purple-500/50 p-4 rounded-2xl cursor-pointer transition-all group" 
-                 data-name="1v1 lol multiplayer building shooter" onclick="launchApp('https://googleusercontent.com')">
-                <div class="w-12 h-12 bg-rose-600/10 rounded-xl flex items-center justify-center mb-3 text-rose-400 group-hover:scale-105 transition-transform font-bold">1v1</div>
-                <h3 class="font-semibold text-sm group-hover:text-purple-400 transition-colors">1v1.LOL Arena</h3>
-                <p class="text-xs text-gray-500 mt-1">3D precision competitive practice framework.</p>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- FULLSCREEN RUNTIME RUNNER MODULE -->
-    <div id="runner-container" class="hidden fixed inset-0 bg-black z-40 pt-[73px]">
-        <!-- Contextual floating control menu for exit strategies -->
-        <button onclick="closeApp()" class="fixed top-[85px] left-4 bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2 rounded-xl text-xs z-50 opacity-40 hover:opacity-100 transition-all shadow-lg">
-            ✕ Close Viewport
-        </button>
-        <iframe id="app-runner" src="" allowfullscreen></iframe>
-    </div>
-
-    <!-- UTILITY ENGINE LOGIC (JAVASCRIPT) -->
+    <!-- CODE LOGIC ARCHITECTURE -->
     <script>
-        // 1. Interactive Sandbox Launch Protocol
+        // Launches the game/site inside the full viewport
         function launchApp(url) {
-            document.getElementById('hub-container').classList.add('hidden');
-            document.getElementById('runner-container').classList.remove('hidden');
-            
+            document.getElementById('hub-container').style.display = 'none';
+            document.getElementById('runner-container').style.display = 'block';
             let frame = document.getElementById('app-runner');
-            frame.classList.add('active-frame');
             frame.src = url;
         }
 
-        // 2. Tear Down active viewport and revert back safely
+        // Exits the fullscreen layout back to your dashboard grid
         function closeApp() {
-            document.getElementById('hub-container').classList.remove('hidden');
-            document.getElementById('runner-container').classList.add('hidden');
-            
+            document.getElementById('hub-container').style.display = 'block';
+            document.getElementById('runner-container').style.display = 'none';
             let frame = document.getElementById('app-runner');
-            frame.classList.remove('active-frame');
             frame.src = "";
         }
 
-        // 3. Dynamic Filtering Engine for Search Bar
+        // Live filtration search script
         function filterApps() {
             let input = document.getElementById('searchBar').value.toLowerCase();
             let cards = document.getElementsByClassName('app-card');
-            
             for (let i = 0; i < cards.length; i++) {
                 let nameAttr = cards[i].getAttribute('data-name');
                 if (nameAttr.includes(input)) {
-                    cards[i].style.display = "block";
+                    cards[i].style.display = "flex";
                 } else {
                     cards[i].style.display = "none";
                 }
             }
         }
 
-        // 4. Advanced Tab Cloaking Architecture (Disguise inside an about:blank object wrapper)
+        // Invisible background container spoofer (about:blank injection)
         function cloakTab() {
             let currentUrl = window.location.href;
             let targetWin = window.open('about:blank', '_blank');
-            
             if (targetWin) {
                 let doc = targetWin.document;
                 doc.body.style.margin = '0';
                 doc.body.style.height = '100vh';
                 doc.body.style.overflow = 'hidden';
-                doc.title = "Google Classroom"; // Spoofed browser tab text
+                doc.title = "Google Classroom";
                 
-                // Set fake educational favicon
                 let link = doc.createElement('link');
                 link.rel = 'icon';
                 link.type = 'image/x-icon';
@@ -155,20 +52,17 @@
                 proxyFrame.style.width = '100%';
                 proxyFrame.style.height = '100%';
                 proxyFrame.src = currentUrl;
-                
                 doc.body.appendChild(proxyFrame);
                 
-                // Immediately bail out the original host page to a real education site
                 window.location.replace("https://google.com");
             } else {
-                alert("Popup Blocker detected! Enable popups to use the Auto Cloaker.");
+                alert("Please enable popup windows for this site to configure the cloaking system!");
             }
         }
 
-        // 5. Hardware Panic Hotkey Trigger (` / Tilde Key)
+        // Tilde / Backtick instantaneous escape route trigger
         window.addEventListener('keydown', function(event) {
             if (event.key === '`' || event.keyCode === 192) {
-                // Instantly evacuate to an official platform asset
                 window.location.replace("https://google.com");
             }
         });
