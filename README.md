@@ -1,6 +1,4 @@
-# SchoolFun
+# School Fun
 
-
-========================================
-this website doesnt endorse playing games in school. Use this website for educational purposes
+use this website purely for educational purposes
 
