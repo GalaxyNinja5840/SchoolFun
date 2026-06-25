@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local HTML Directory Viewer</title>
+    <style>
+        :root {
+            --bg-color: #1e1e2e;
+            --sidebar-bg: #252538;
+            --text-color: #cdd6f4;
+            --accent-color: #89b4fa;
+            --border-color: #45475a;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #sidebar {
+            width: 300px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: #11111b;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #file-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        #file-list li {
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 5px;
+        }
+
+        #file-list li:hover {
+            background-color: #313244;
+        }
+
+        #file-list li.active {
+            background-color: var(--accent-color);
+            color: #11111b;
+        }
+
+        #viewer-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+        }
+
+        #viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #ffffff;
+        }
+
+        .status {
+            font-size: 0.85em;
+            color: #a6adc8;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <h3>HTML Workspace</h3>
+        <button id="btn-select-folder">Select Folder</button>
+        <div id="status" class="status">No folder selected.</div>
+        <button id="btn-refresh" style="background-color: #45475a; color: white; display: none;">🔄 Refresh Folder</button>
+        <ul id="file-list"></ul>
+    </div>
+
+    <div id="viewer-container">
+        <iframe id="viewer" title="HTML Preview"></iframe>
+    </div>
+
+    <script>
+        const btnSelectFolder = document.getElementById('btn-select-folder');
+        const btnRefresh = document.getElementById('btn-refresh');
+        const fileListElement = document.getElementById('file-list');
+        const statusElement = document.getElementById('status');
+        const iframeViewer = document.getElementById('viewer');
+
+        let dirHandle = null;
+        let fileMap = new Map(); // Stores file references
+
+        // 1. Listen for folder selection
+        btnSelectFolder.addEventListener('click', async () => {
+            try {
+                // Request access to a local directory
+                dirHandle = await window.showDirectoryPicker();
+                statusElement.textContent = `Connected to: ${dirHandle.name}`;
+                btnRefresh.style.display = 'block';
+                await scanDirectory();
+            } catch (err) {
+                console.error('Folder access denied or failed:', err);
+                statusElement.textContent = 'Access cancelled or failed.';
+            }
+        });
+
+        // 2. Scan the folder for HTML files
+        async function scanDirectory() {
+            if (!dirHandle) return;
+
+            fileListElement.innerHTML = '';
+            fileMap.clear();
+
+            for await (const entry of dirHandle.values()) {
+                // Only look for files ending in .html or .htm
+                if (entry.kind === 'file' && (entry.name.endsWith('.html') || entry.name.endsWith('.htm'))) {
+                    fileMap.set(entry.name, entry);
+
+                    const li = document.createElement('li');
+                    li.textContent = entry.name;
+                    li.addEventListener('click', () => loadFileIntoIframe(entry.name, li));
+                    fileListElement.appendChild(li);
+                }
+            }
+
+            if (fileMap.size === 0) {
+                const li = document.createElement('li');
+                li.textContent = "No HTML files found.";
+                li.style.cursor = "default";
+                fileListElement.appendChild(li);
+            }
+        }
+
+        // 3. Read the selected file and load it safely inside the iframe
+        async function loadFileIntoIframe(fileName, element) {
+            try {
+                const fileHandle = fileMap.get(fileName);
+                const file = await fileHandle.getFile();
+                const text = await file.text();
+
+                // Highlight the active file in the sidebar
+                document.querySelectorAll('#file-list li').forEach(el => el.classList.remove('active'));
+                element.classList.add('active');
+
+                // Create a temporary local URL blob for the file data
+                const blob = new Blob([text], { type: 'text/html' });
+                const blobUrl = URL.createObjectURL(blob);
+
+                // Load the blob URL inside our iframe display container
+                iframeViewer.src = blobUrl;
+
+                // Clean up memory after loading
+                iframeViewer.onload = () => {
+                    URL.revokeObjectURL(blobUrl);
+                };
+
+            } catch (err) {
+                console.error('Error reading file:', err);
+                alert('Failed to read file contents.');
+            }
+        }
+
+        // 4. Manual trigger to refresh the directory contents
+        btnRefresh.addEventListener('click', async () => {
+            await scanDirectory();
+        });
+    </script>
+</body>
+</html>
